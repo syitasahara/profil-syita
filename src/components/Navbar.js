@@ -4,7 +4,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Effect untuk menangani scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -13,7 +12,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Fungsi untuk menutup menu mobile saat link diklik
   const handleLinkClick = () => {
     setIsOpen(false);
   };
@@ -26,12 +24,10 @@ const Navbar = () => {
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex justify-between items-center h-full">
-          {/* Logo */}
           <div className="text-xl sm:text-[20px] font-bold text-gray-800">
             ProfilSyita
           </div>
 
-          {/* Menu Desktop */}
           <div className="hidden md:flex items-center space-x-8">
             <a
               href="#about"
@@ -59,7 +55,6 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* Tombol Hire Me Desktop */}
           <div className="hidden md:block">
             <button className="bg-gradient-to-r from-[#7755FF] to-[#FF54B0] text-white px-6 py-3 rounded-lg hover:opacity-90 transition-opacity duration-300 font-semibold inline-flex items-center shadow-md hover:shadow-lg transition-shadow">
               <svg
@@ -78,7 +73,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Hamburger Menu Mobile */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -112,7 +106,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Menu Mobile */}
         <div
           className={`md:hidden absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
             isOpen
