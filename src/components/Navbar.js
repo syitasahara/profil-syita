@@ -1,38 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Effect untuk menangani scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Fungsi untuk menutup menu mobile saat link diklik
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <nav className="bg-white shadow-sm h-[88px] sticky top-0 z-50 flex items-center">
-      <div className="w-[1440px] mx-auto px-4">
-        <div className="flex justify-between items-center">
+    <nav
+      className={`bg-white sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled ? "shadow-lg h-[70px]" : "shadow-sm h-[88px]"
+      }`}
+    >
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex justify-between items-center h-full">
           {/* Logo */}
-          <div className="text-[20px] font-bold text-gray-800">MyProfile</div>
+          <div className="text-xl sm:text-[20px] font-bold text-gray-800">
+            ProfilSyita
+          </div>
 
           {/* Menu Desktop */}
-          <div className="text-[16px] font-semibold hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             <a
               href="#about"
-              className="text-gray-600 hover:text-violet-500 transition"
+              className="text-gray-600 hover:text-violet-500 transition-colors duration-300 font-semibold"
             >
               About
             </a>
             <a
               href="#skills"
-              className="text-gray-600 hover:text-violet-500 transition"
+              className="text-gray-600 hover:text-violet-500 transition-colors duration-300 font-semibold"
             >
               Skills
             </a>
             <a
               href="#portfolio"
-              className="text-gray-600 hover:text-violet-500 transition"
+              className="text-gray-600 hover:text-violet-500 transition-colors duration-300 font-semibold"
             >
               Portfolio
             </a>
             <a
               href="#contact"
-              className="text-gray-600 hover:text-violet-500 transition"
+              className="text-gray-600 hover:text-violet-500 transition-colors duration-300 font-semibold"
             >
               Contact
             </a>
@@ -40,7 +61,7 @@ const Navbar = () => {
 
           {/* Tombol Hire Me Desktop */}
           <div className="hidden md:block">
-            <button className="text-[16px] font-semibold bg-gradient-to-r from-[#7755FF] to-[#FF54B0] text-white px-4 py-2 rounded-lg hover:opacity-95 transition inline-flex items-center">
+            <button className="bg-gradient-to-r from-[#7755FF] to-[#FF54B0] text-white px-6 py-3 rounded-lg hover:opacity-90 transition-opacity duration-300 font-semibold inline-flex items-center shadow-md hover:shadow-lg transition-shadow">
               <svg
                 className="w-4 h-4 mr-2"
                 viewBox="0 0 16 16"
@@ -61,7 +82,9 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 focus:outline-none"
+              className="text-gray-600 focus:outline-none focus:ring-2 focus:ring-violet-500 rounded-lg p-2 transition-colors"
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
               <svg
                 className="w-6 h-6"
@@ -90,33 +113,46 @@ const Navbar = () => {
         </div>
 
         {/* Menu Mobile */}
-        {isOpen && (
-          <div className="md:hidden mt-4 space-y-4 pb-4">
+        <div
+          className={`md:hidden absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
+            isOpen
+              ? "opacity-100 visible translate-y-0"
+              : "opacity-0 invisible -translate-y-2"
+          }`}
+        >
+          <div className="px-4 py-6 space-y-4 border-t">
             <a
               href="#about"
-              className="block text-gray-600 hover:text-violet-500 transition"
+              className="block text-gray-600 hover:text-violet-500 transition-colors duration-300 py-2 font-medium"
+              onClick={handleLinkClick}
             >
               About
             </a>
             <a
               href="#skills"
-              className="block text-gray-600 hover:text-violet-500 transition"
+              className="block text-gray-600 hover:text-violet-500 transition-colors duration-300 py-2 font-medium"
+              onClick={handleLinkClick}
             >
               Skills
             </a>
             <a
               href="#portfolio"
-              className="block text-gray-600 hover:text-violet-500 transition"
+              className="block text-gray-600 hover:text-violet-500 transition-colors duration-300 py-2 font-medium"
+              onClick={handleLinkClick}
             >
               Portfolio
             </a>
             <a
               href="#contact"
-              className="block text-gray-600 hover:text-violet-500 transition"
+              className="block text-gray-600 hover:text-violet-500 transition-colors duration-300 py-2 font-medium"
+              onClick={handleLinkClick}
             >
               Contact
             </a>
-            <button className="bg-gradient-to-r from-[#7755FF] to-[#FF54B0] text-white px-4 py-2 rounded-lg hover:opacity-95 transition w-full inline-flex items-center justify-center">
+            <button 
+              className="bg-gradient-to-r from-[#7755FF] to-[#FF54B0] text-white px-4 py-3 rounded-lg hover:opacity-90 transition-opacity duration-300 w-full inline-flex items-center justify-center font-semibold shadow-md mt-4"
+              onClick={handleLinkClick}
+            >
               <svg
                 className="w-4 h-4 mr-2"
                 viewBox="0 0 16 16"
@@ -132,7 +168,7 @@ const Navbar = () => {
               Hire Me
             </button>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
